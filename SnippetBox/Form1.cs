@@ -16,25 +16,13 @@ namespace SnippetBox
         private const int HTCLIENT = 0x1;
         private const int HTCAPTION = 0x2;
 
-        // Import Windows funkcí pro pøetahování okna
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-        // Konstanty pro tahání formuláøe
         public const int WM_NCLBUTTONDOWN = 0xA1;
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == WM_NCHITTEST && (int)m.Result == HTCLIENT)
-            {
-                m.Result = (IntPtr)HTCAPTION;
-            }
-        }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -86,7 +74,7 @@ namespace SnippetBox
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && e.Clicks < 2)
             {
                 ReleaseCapture();
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
@@ -100,7 +88,16 @@ namespace SnippetBox
 
         private void label1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && e.Clicks < 2)
+            {
+                ReleaseCapture();
+                SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+            }
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.Clicks < 2)
             {
                 ReleaseCapture();
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);

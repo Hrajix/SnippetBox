@@ -83,9 +83,10 @@
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             Name = "Form1";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Form1";
             Load += Form1_Load;
+            MouseDown += Form1_MouseDown;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
