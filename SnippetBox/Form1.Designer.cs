@@ -57,6 +57,8 @@
             label1.Size = new Size(95, 21);
             label1.TabIndex = 1;
             label1.Text = "SnippetBox";
+            label1.Click += label1_Click;
+            label1.MouseDown += label1_MouseDown;
             // 
             // button1
             // 
