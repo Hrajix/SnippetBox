@@ -32,6 +32,9 @@
             panel1 = new Panel();
             label1 = new Label();
             button1 = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            button2 = new Button();
+            button3 = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,7 +60,6 @@
             label1.Size = new Size(95, 21);
             label1.TabIndex = 1;
             label1.Text = "SnippetBox";
-            label1.Click += label1_Click;
             label1.MouseDown += label1_MouseDown;
             // 
             // button1
@@ -72,6 +74,49 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.BackColor = Color.FromArgb(18, 18, 18);
+            flowLayoutPanel1.Location = new Point(12, 55);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Padding = new Padding(3);
+            flowLayoutPanel1.Size = new Size(263, 641);
+            flowLayoutPanel1.TabIndex = 1;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(68, 68, 68);
+            button2.BackgroundImageLayout = ImageLayout.None;
+            button2.FlatAppearance.BorderColor = Color.FromArgb(176, 176, 176);
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(663, 644);
+            button2.Name = "button2";
+            button2.Size = new Size(128, 42);
+            button2.TabIndex = 2;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(68, 68, 68);
+            button3.BackgroundImageLayout = ImageLayout.None;
+            button3.FlatAppearance.BorderColor = Color.FromArgb(176, 176, 176);
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            button3.ForeColor = Color.White;
+            button3.Location = new Point(529, 644);
+            button3.Name = "button3";
+            button3.Size = new Size(128, 42);
+            button3.TabIndex = 3;
+            button3.Text = "button3";
+            button3.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -79,6 +124,9 @@
             BackColor = Color.FromArgb(18, 18, 18);
             ClientSize = new Size(803, 708);
             ControlBox = false;
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
@@ -98,5 +146,8 @@
         private Panel panel1;
         private Button button1;
         private Label label1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Button button2;
+        private Button button3;
     }
 }

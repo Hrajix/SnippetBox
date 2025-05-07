@@ -8,4 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CodeMirror" Version="2.37.0" />
+  </ItemGroup>
+
 </Project>
