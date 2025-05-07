@@ -1,15 +1,17 @@
 using System.Drawing.Drawing2D;
-using System;
 using System.Runtime.InteropServices;
-
+using System.Text.Json;
 
 namespace SnippetBox
 {
     public partial class Form1 : Form
     {
+        private const string SnippetFilePath = "snippets.json";
+
         public Form1()
         {
             InitializeComponent();
+            LoadSnippetsOnStartup();
         }
 
         private const int WM_NCHITTEST = 0x84;
@@ -27,12 +29,10 @@ namespace SnippetBox
         private void Form1_Load(object sender, EventArgs e)
         {
             MakeFormRounded(25);
-
             MakeButtonRounded(button1, 20);
-
             MakeButtonRounded(button2, 20);
-
             MakeButtonRounded(button3, 20);
+            MakeButtonRounded(button4, 20);
         }
 
         private void MakeFormRounded(int radius)
@@ -40,16 +40,14 @@ namespace SnippetBox
             Rectangle bounds = new Rectangle(0, 0, this.Width, this.Height);
             GraphicsPath path = new GraphicsPath();
 
-            path.AddArc(bounds.X, bounds.Y, radius, radius, 180, 90); // levý horní
-            path.AddArc(bounds.Right - radius, bounds.Y, radius, radius, 270, 90); // pravý horní
-            path.AddArc(bounds.Right - radius, bounds.Bottom - radius, radius, radius, 0, 90); // pravý dolní
-            path.AddArc(bounds.X, bounds.Bottom - radius, radius, radius, 90, 90); // levý dolní
+            path.AddArc(bounds.X, bounds.Y, radius, radius, 180, 90);
+            path.AddArc(bounds.Right - radius, bounds.Y, radius, radius, 270, 90);
+            path.AddArc(bounds.Right - radius, bounds.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(bounds.X, bounds.Bottom - radius, radius, radius, 90, 90);
             path.CloseFigure();
 
             this.Region = new Region(path);
         }
-
-
 
         public void MakeButtonRounded(Button button, int radius)
         {
@@ -70,21 +68,7 @@ namespace SnippetBox
             this.Close();
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void panel1_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && e.Clicks < 2)
-            {
-                ReleaseCapture();
-                SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
-            }
-        }
-
-        private void label1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && e.Clicks < 2)
             {
@@ -102,23 +86,44 @@ namespace SnippetBox
             }
         }
 
-
-
         private void button2_Click(object sender, EventArgs e)
         {
-            AddSnippetCard("test1", "Lua", "desc");
+            // Získání dat ze vstupù
+            string name = textBox1.Text;
+            string language = comboBox1.Text;
+            string description = textBox2.Text;
+            string code = comboBox1.Text == "Text" ? richTextBox1.Text : fastColoredTextBox1.Text;
+
+            // Vytvoøení snippetu
+            Snippet snippet = new Snippet
+            {
+                Name = name,
+                Language = language,
+                Description = description,
+                Code = code
+            };
+
+            // Pøidání na panel
+            AddSnippetCard(snippet);
+
+            // Uložení do souboru
+            SaveSnippetToFile(snippet);
+
+            // Vyèistí vstupy
+            textBox1.Clear();
+            textBox2.Clear();
+            richTextBox1.Clear();
+            fastColoredTextBox1.Clear();
         }
 
-
-
-        private void AddSnippetCard(string name, string language, string description)
+        private void AddSnippetCard(Snippet snippet)
         {
             // Vytvoøí nový panel pro snippet
             Panel snippetPanel = new Panel
             {
                 Width = 220,
                 Height = 130,
-                BackColor = Color.FromArgb(35, 35, 40), // Tmavší šedá, aby ladila s pozadím
+                BackColor = Color.FromArgb(35, 35, 40),
                 Margin = new Padding(10),
                 Padding = new Padding(10),
                 BorderStyle = BorderStyle.None,
@@ -129,21 +134,20 @@ namespace SnippetBox
             {
                 Width = 100,
                 Height = 10,
-                Text = description,
+                Text = snippet.Description,
                 Font = new Font("Segoe UI", 10),
                 ForeColor = Color.White,
                 Dock = DockStyle.Fill,
                 Padding = new Padding(0),
-                AutoEllipsis = false // Tøi teèky, pokud je text delší než label
+                AutoEllipsis = false
             };
             snippetPanel.Controls.Add(descriptionLabel);
 
-            // Pøidá název snippetu
             Label nameLabel = new Label
             {
                 Width = 100,
                 Height = 30,
-                Text = name,
+                Text = snippet.Name,
                 Font = new Font("Segoe UI", 12, FontStyle.Bold),
                 ForeColor = Color.White,
                 Dock = DockStyle.Top,
@@ -151,12 +155,11 @@ namespace SnippetBox
             };
             snippetPanel.Controls.Add(nameLabel);
 
-            // Pøidá jazyk
             Label languageLabel = new Label
             {
                 Width = 100,
                 Height = 30,
-                Text = $"Jazyk: {language}",
+                Text = $"Jazyk: {snippet.Language}",
                 Font = new Font("Segoe UI", 10),
                 ForeColor = Color.LightGray,
                 Dock = DockStyle.Top,
@@ -164,7 +167,7 @@ namespace SnippetBox
             };
             snippetPanel.Controls.Add(languageLabel);
 
-            // Pøidá hover efekt
+            // Hover efekty
             snippetPanel.MouseEnter += (s, e) => snippetPanel.BackColor = Color.FromArgb(45, 45, 50);
             snippetPanel.MouseLeave += (s, e) => snippetPanel.BackColor = Color.FromArgb(35, 35, 40);
 
@@ -181,14 +184,45 @@ namespace SnippetBox
             flowLayoutPanel1.Controls.Add(snippetPanel);
         }
 
-        private void NameLabel_MouseEnter1(object? sender, EventArgs e)
+        private void SaveSnippetToFile(Snippet snippet)
         {
-            throw new NotImplementedException();
+            List<Snippet> snippets = LoadSnippetsFromFile();
+            snippets.Add(snippet);
+            string json = JsonSerializer.Serialize(snippets, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(SnippetFilePath, json);
         }
 
-        private void NameLabel_MouseEnter(object? sender, EventArgs e)
+        private void LoadSnippetsOnStartup()
         {
-            throw new NotImplementedException();
+            List<Snippet> snippets = LoadSnippetsFromFile();
+            foreach (var snippet in snippets)
+            {
+                AddSnippetCard(snippet);
+            }
+        }
+
+        private List<Snippet> LoadSnippetsFromFile()
+        {
+            if (File.Exists(SnippetFilePath))
+            {
+                string json = File.ReadAllText(SnippetFilePath);
+                return JsonSerializer.Deserialize<List<Snippet>>(json) ?? new List<Snippet>();
+            }
+            return new List<Snippet>();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "Text")
+            {
+                fastColoredTextBox1.Visible = false;
+                richTextBox1.Visible = true;
+            }
+            else
+            {
+                fastColoredTextBox1.Visible = true;
+                richTextBox1.Visible = false;
+            }
         }
     }
 }
