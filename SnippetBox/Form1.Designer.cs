@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             fontDialog1 = new FontDialog();
             panel1 = new Panel();
+            button5 = new Button();
             label1 = new Label();
             button1 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -50,6 +51,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(68, 68, 68);
+            panel1.Controls.Add(button5);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(button1);
             panel1.Location = new Point(0, 0);
@@ -57,6 +59,18 @@
             panel1.Size = new Size(803, 49);
             panel1.TabIndex = 0;
             panel1.MouseDown += panel1_MouseDown;
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.Gold;
+            button5.FlatAppearance.BorderSize = 0;
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.Location = new Point(745, 14);
+            button5.Name = "button5";
+            button5.Size = new Size(20, 20);
+            button5.TabIndex = 2;
+            button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click;
             // 
             // label1
             // 
@@ -188,7 +202,7 @@
             comboBox1.ForeColor = Color.Black;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Text", "C#", "HTML", "LUA", "JAVASCRIPT", "JSON", "PHP" });
-            comboBox1.Location = new Point(281, 644);
+            comboBox1.Location = new Point(298, 644);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 9;
@@ -281,5 +295,6 @@
         private TextBox textBox2;
         private ComboBox comboBox1;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox1;
+        private Button button5;
     }
 }

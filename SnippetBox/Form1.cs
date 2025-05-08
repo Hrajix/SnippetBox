@@ -35,6 +35,7 @@ namespace SnippetBox
             MakeButtonRounded(button2, 20);
             MakeButtonRounded(button3, 20);
             MakeButtonRounded(button4, 20);
+            MakeButtonRounded(button5, 20);
         }
 
         private void MakeFormRounded(int radius)
@@ -265,6 +266,11 @@ namespace SnippetBox
                 ReleaseCapture();
                 SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
