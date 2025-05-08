@@ -92,6 +92,21 @@ namespace SnippetBox
         private void button2_Click(object sender, EventArgs e)
         {
             string name = textBox1.Text;
+
+            if (File.Exists("snippets.json"))
+            {
+                string json = File.ReadAllText("snippets.json");
+                var snippets = JsonSerializer.Deserialize<List<Snippet>>(json);
+                bool exists = snippets.Any(s => s.Name == name);
+
+                if (exists)
+                {
+                    MessageBox.Show("Snippet s tímhle názvem již existuje!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+            }
+
             string language = comboBox1.Text;
             string description = textBox2.Text;
             string code = comboBox1.Text == "Text" ? richTextBox1.Text : fastColoredTextBox1.Text;
@@ -271,6 +286,11 @@ namespace SnippetBox
         private void button5_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
