@@ -233,7 +233,6 @@
             fastColoredTextBox1.CharHeight = 14;
             fastColoredTextBox1.CharWidth = 8;
             fastColoredTextBox1.DisabledColor = Color.FromArgb(100, 180, 180, 180);
-            fastColoredTextBox1.Hotkeys = resources.GetString("fastColoredTextBox1.Hotkeys");
             fastColoredTextBox1.IndentBackColor = Color.FromArgb(18, 18, 18);
             fastColoredTextBox1.IsReplaceMode = false;
             fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.JS;
