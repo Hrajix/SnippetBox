@@ -8,6 +8,8 @@ namespace SnippetBox
     {
         private const string SnippetFilePath = "snippets.json";
 
+        Snippet currentSnippet;
+
         public Form1()
         {
             InitializeComponent();
@@ -88,13 +90,11 @@ namespace SnippetBox
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Získání dat ze vstupù
             string name = textBox1.Text;
             string language = comboBox1.Text;
             string description = textBox2.Text;
             string code = comboBox1.Text == "Text" ? richTextBox1.Text : fastColoredTextBox1.Text;
 
-            // Vytvoøení snippetu
             Snippet snippet = new Snippet
             {
                 Name = name,
@@ -103,13 +103,10 @@ namespace SnippetBox
                 Code = code
             };
 
-            // Pøidání na panel
             AddSnippetCard(snippet);
 
-            // Uložení do souboru
             SaveSnippetToFile(snippet);
 
-            // Vyèistí vstupy
             textBox1.Clear();
             textBox2.Clear();
             richTextBox1.Clear();
@@ -127,7 +124,8 @@ namespace SnippetBox
                 Margin = new Padding(10),
                 Padding = new Padding(10),
                 BorderStyle = BorderStyle.None,
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                Tag = snippet
             };
 
             Label descriptionLabel = new Label
@@ -167,7 +165,30 @@ namespace SnippetBox
             };
             snippetPanel.Controls.Add(languageLabel);
 
-            // Hover efekty
+            void PanelClickHandler(object sender, EventArgs e)
+            {
+                if (snippet.Language == "Text")
+                {
+                    richTextBox1.Text = snippet.Code;
+                    richTextBox1.Visible = true;
+                    fastColoredTextBox1.Visible = false;
+                }
+                else
+                {
+                    fastColoredTextBox1.Text = snippet.Code;
+                    fastColoredTextBox1.Visible = true;
+                    richTextBox1.Visible = false;
+                }
+                textBox1.Text = snippet.Name;
+                textBox2.Text = snippet.Description;
+                comboBox1.Text = snippet.Language;
+            }
+
+            snippetPanel.Click += PanelClickHandler;
+            nameLabel.Click += PanelClickHandler;
+            languageLabel.Click += PanelClickHandler;
+            descriptionLabel.Click += PanelClickHandler;
+
             snippetPanel.MouseEnter += (s, e) => snippetPanel.BackColor = Color.FromArgb(45, 45, 50);
             snippetPanel.MouseLeave += (s, e) => snippetPanel.BackColor = Color.FromArgb(35, 35, 40);
 
@@ -180,9 +201,9 @@ namespace SnippetBox
             languageLabel.MouseEnter += (s, e) => snippetPanel.BackColor = Color.FromArgb(45, 45, 50);
             languageLabel.MouseLeave += (s, e) => snippetPanel.BackColor = Color.FromArgb(35, 35, 40);
 
-            // Pøidá panel do FlowLayoutPanelu
             flowLayoutPanel1.Controls.Add(snippetPanel);
         }
+
 
         private void SaveSnippetToFile(Snippet snippet)
         {
@@ -222,6 +243,27 @@ namespace SnippetBox
             {
                 fastColoredTextBox1.Visible = true;
                 richTextBox1.Visible = false;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (fastColoredTextBox1.Visible)
+            {
+                fastColoredTextBox1.Copy();
+            }
+            else
+            {
+                richTextBox1.Copy();
+            }
+        }
+
+        private void label1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.Clicks < 2)
+            {
+                ReleaseCapture();
+                SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
             }
         }
     }

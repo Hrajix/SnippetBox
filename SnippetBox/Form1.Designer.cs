@@ -68,6 +68,7 @@
             label1.Size = new Size(95, 21);
             label1.TabIndex = 1;
             label1.Text = "SnippetBox";
+            label1.MouseDown += label1_MouseDown;
             // 
             // button1
             // 
@@ -135,6 +136,7 @@
             button3.TabIndex = 5;
             button3.Text = "COPY";
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
@@ -216,6 +218,7 @@
             fastColoredTextBox1.CharWidth = 8;
             fastColoredTextBox1.DisabledColor = Color.FromArgb(100, 180, 180, 180);
             fastColoredTextBox1.Font = new Font("Courier New", 9.75F);
+            fastColoredTextBox1.Hotkeys = resources.GetString("fastColoredTextBox1.Hotkeys");
             fastColoredTextBox1.IndentBackColor = Color.FromArgb(18, 18, 18);
             fastColoredTextBox1.IsReplaceMode = false;
             fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.JS;
