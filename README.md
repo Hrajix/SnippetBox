@@ -17,9 +17,9 @@ The things you need before installing the software.
 A step by step guide that will tell you how to get the development environment up and running.
 
 
-$ Install SnippetBox from [releases](https://github.com/Hrajix/SnippetBox/releases)
-$ Don't forget to install .NET 8.0
-$ That's it! Now just run the SnippetBox and you're ready to save your snippets!
+* Install SnippetBox from [releases](https://github.com/Hrajix/SnippetBox/releases)
+* Don't forget to install .NET 8.0
+* That's it! Now just run the SnippetBox and you're ready to save your snippets!
 
 
 ## Usage
