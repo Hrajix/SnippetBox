@@ -9,6 +9,8 @@ namespace SnippetBox
         private const string SnippetFilePath = "snippets.json";
 
         Snippet currentSnippet;
+        string currentSnippetName;
+
 
         public Form1()
         {
@@ -99,6 +101,11 @@ namespace SnippetBox
                 var snippets = JsonSerializer.Deserialize<List<Snippet>>(json);
                 bool exists = snippets.Any(s => s.Name == name);
 
+                if (name == string.Empty)
+                {
+                    MessageBox.Show("Název snippetu nemùže být nic!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 if (exists)
                 {
                     MessageBox.Show("Snippet s tímhle názvem již existuje!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -197,6 +204,7 @@ namespace SnippetBox
                     richTextBox1.Visible = false;
                 }
                 textBox1.Text = snippet.Name;
+                currentSnippetName = snippet.Name.ToString();
                 textBox2.Text = snippet.Description;
                 comboBox1.Text = snippet.Language;
             }
@@ -300,10 +308,23 @@ namespace SnippetBox
                 var snippets = JsonSerializer.Deserialize<List<Snippet>>(json);
                 bool exists = snippets.Any(s => s.Name == name);
 
-                if (!exists)
+                if (currentSnippetName != null)
                 {
-                    MessageBox.Show("Název v poli pro název se neshoduje s žádným snippetem!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Pøed smazáním musíte zvolit snippet, který chcete smazat!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+                else
+                {
+                    if (!exists)
+                    {
+                        //delete
+                        MessageBox.Show("smazani");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Název v poli pro název se neshoduje s žádným snippetem!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
             }
             else
