@@ -89,12 +89,15 @@
             button1.BackColor = Color.DarkRed;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 238);
             button1.Location = new Point(771, 14);
             button1.Name = "button1";
             button1.Size = new Size(20, 20);
             button1.TabIndex = 0;
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
+            button1.MouseEnter += button1_MouseEnter;
+            button1.MouseLeave += button1_MouseLeave;
             // 
             // flowLayoutPanel1
             // 

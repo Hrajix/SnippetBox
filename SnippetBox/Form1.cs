@@ -183,6 +183,7 @@ namespace SnippetBox
 
             void PanelClickHandler(object sender, EventArgs e)
             {
+                currentSnippet = snippet;
                 if (snippet.Language == "Text")
                 {
                     richTextBox1.Text = snippet.Code;
@@ -290,7 +291,35 @@ namespace SnippetBox
 
         private void button4_Click(object sender, EventArgs e)
         {
+            // delete tlacitko
+            string name = textBox1.Text;
 
+            if (File.Exists("snippets.json"))
+            {
+                string json = File.ReadAllText("snippets.json");
+                var snippets = JsonSerializer.Deserialize<List<Snippet>>(json);
+                bool exists = snippets.Any(s => s.Name == name);
+
+                if (!exists)
+                {
+                    MessageBox.Show("Název v poli pro název se neshoduje s žádným snippetem!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Není co mazat", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }    
+        }
+
+        private void button1_MouseEnter(object sender, EventArgs e)
+        {
+            button1.Text = "X";
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            button1.Text = string.Empty;
         }
     }
 }
