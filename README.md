@@ -28,3 +28,7 @@ $ Select language in combobox for syntax highlighter and for better organization
 $ When you're ready to save your snippet, you wil press the save button. New panel on the left side will appear.
 $ If you want to delete that snippet, select the snippet by clicking on the panel and press delete.
 ```
+
+## Important information
+
+* This app looks for the snippets in "snippets.json" file which has to be inside the same folder as SnippetBox.exe, Otherwise the program will create a new snippets.json.
