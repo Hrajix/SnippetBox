@@ -309,6 +309,7 @@ namespace SnippetBox
             else
             {
                 MessageBox.Show("Není co mazat", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }    
         }
 
