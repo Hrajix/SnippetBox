@@ -9,8 +9,9 @@ namespace SnippetBox
         private const string SnippetFilePath = "snippets.json";
 
         Snippet currentSnippet;
+        bool haveSelectedSnippet = false;
         string currentSnippetName;
-
+        Panel currentPanel;
 
         public Form1()
         {
@@ -138,7 +139,6 @@ namespace SnippetBox
 
         private void AddSnippetCard(Snippet snippet)
         {
-            // Vytvoøí nový panel pro snippet
             Panel snippetPanel = new Panel
             {
                 Width = 220,
@@ -190,6 +190,7 @@ namespace SnippetBox
 
             void PanelClickHandler(object sender, EventArgs e)
             {
+                haveSelectedSnippet = true;
                 currentSnippet = snippet;
                 if (snippet.Language == "Text")
                 {
@@ -207,6 +208,7 @@ namespace SnippetBox
                 currentSnippetName = snippet.Name.ToString();
                 textBox2.Text = snippet.Description;
                 comboBox1.Text = snippet.Language;
+                currentPanel = snippetPanel;
             }
 
             snippetPanel.Click += PanelClickHandler;
@@ -228,7 +230,6 @@ namespace SnippetBox
 
             flowLayoutPanel1.Controls.Add(snippetPanel);
         }
-
 
         private void SaveSnippetToFile(Snippet snippet)
         {
@@ -308,17 +309,37 @@ namespace SnippetBox
                 var snippets = JsonSerializer.Deserialize<List<Snippet>>(json);
                 bool exists = snippets.Any(s => s.Name == name);
 
-                if (currentSnippetName != null)
+                if (!haveSelectedSnippet)
                 {
                     MessageBox.Show("Pøed smazáním musíte zvolit snippet, který chcete smazat!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 else
                 {
-                    if (!exists)
+                    if (exists)
                     {
-                        //delete
-                        MessageBox.Show("smazani");
+                        if (MessageBox.Show("Jste si jistí?", "SnippetBox", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            //delete
+                            snippets = snippets.Where(s => s.Name != name).ToList();
+                            var newJson = JsonSerializer.Serialize(snippets, new JsonSerializerOptions { WriteIndented = true });
+                            File.WriteAllText("snippets.json", newJson);
+
+                            if (currentPanel != null)
+                            {
+                                flowLayoutPanel1.Controls.Remove(currentPanel);
+                                currentPanel.Dispose();
+                                currentPanel = null;
+                                haveSelectedSnippet = false;
+                                MessageBox.Show("Snippet byl úspìšnì smazán!", "SnippetBox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                flowLayoutPanel1.Refresh();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("smazani zruseno");
+                            return;
+                        }
                     }
                     else
                     {
