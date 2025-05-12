@@ -270,6 +270,32 @@ namespace SnippetBox
                 fastColoredTextBox1.Visible = true;
                 richTextBox1.Visible = false;
             }
+
+            if (comboBox1.Text == "LUA")
+            {
+                fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.Lua;
+            }
+            else if (comboBox1.Text == "C#")
+            {
+                fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.CSharp;
+            }
+            else if (comboBox1.Text == "HTML")
+            {
+                fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.HTML;
+            }
+            else if (comboBox1.Text == "JAVASCRIPT")
+            {
+                fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.JS;
+            }
+            else if (comboBox1.Text == "JSON")
+            {
+                fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.JSON;
+            }
+            else if (comboBox1.Text == "PHP")
+            {
+                fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.PHP;
+            }
+
         }
 
         private void button3_Click(object sender, EventArgs e)

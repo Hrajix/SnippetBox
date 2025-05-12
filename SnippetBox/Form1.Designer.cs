@@ -235,7 +235,7 @@
             fastColoredTextBox1.CharHeight = 14;
             fastColoredTextBox1.CharWidth = 8;
             fastColoredTextBox1.DisabledColor = Color.FromArgb(100, 180, 180, 180);
-            fastColoredTextBox1.Font = new Font("Courier New", 9.75F);
+            fastColoredTextBox1.ForeColor = Color.White;
             fastColoredTextBox1.IndentBackColor = Color.FromArgb(18, 18, 18);
             fastColoredTextBox1.IsReplaceMode = false;
             fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.JS;
