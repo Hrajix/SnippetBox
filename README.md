@@ -23,7 +23,7 @@ The things you need before installing the software.
 ## Usage
 
 ```
-$ launch SnippetBox and you will se the UI with these buttons: Save, Copy, Delete; 3 textboxes: Name of the snippet, Description and the code; and 1 combobox with languages.
+$ launch SnippetBox and you will see the UI with these buttons: Save, Copy, Delete; 3 textboxes: Name of the snippet, Description and the code; and 1 combobox with languages.
 $ Select language in combobox for syntax highlighter and for better organization and you're ready to save your snippets!
 $ When you're ready to save your snippet, you wil press the save button. New panel on the left side will appear.
 $ If you want to delete that snippet, select the snippet by clicking on the panel and press delete.
