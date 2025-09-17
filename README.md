@@ -31,4 +31,4 @@ $ If you want to delete that snippet, select the snippet by clicking on the pane
 
 ## Important information
 
-* This app looks for the snippets in "snippets.json" file which has to be inside the same folder as SnippetBox.exe, Otherwise the program will create a new snippets.json.
+* Snippets are saved inside the snippets.json file. SnippetBox will create this file automaticly. Do not remove it unless you want to delete all snippets.
